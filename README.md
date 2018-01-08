@@ -13,4 +13,5 @@ Pings are sent out every second, and the tray icon is changed accordingly based 
 ## How to setup to run on login
 
 1. Type `Win` + `R` to open the run menu, type `shell:startup` and press enter. This opens the startup folder for the current user.
-2. Copy the executable (`.exe`) and the two `.ico` icon files to the startup folder.
+2. Copy the executable (`.exe`) and the two `.ico` icon files in the `Latest Release Executable` folder to the startup folder.
+3. Upon the next restart (or login) the executable will launch.
