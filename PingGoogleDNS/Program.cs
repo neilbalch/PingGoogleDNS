@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Net.NetworkInformation;
@@ -33,10 +33,12 @@ namespace PingGoogleDNS
             Icon disconnectedIcon = new Icon("disconnected.ico");
             // Create ping sender thread
             Thread pingWorker;
+            MenuItem roundTripTime;
             #endregion
 
             #region StartPinger
-            public void StartPinger() {
+            public void StartPinger()
+            {
                 // Create tray icon and make it visible
                 pingIcon = new NotifyIcon();
                 pingIcon.Icon = disconnectedIcon;
@@ -44,10 +46,12 @@ namespace PingGoogleDNS
 
                 // Create Menu Items and add them to a context meny on the tray icon
                 MenuItem quit = new MenuItem("Quit / Exit");
-                MenuItem name = new MenuItem("Pings google DNS (8.8.8.8) every second and reports status.");
+                MenuItem name = new MenuItem("Pings Google DNS (8.8.8.8)");
+                roundTripTime = new MenuItem("Latest ping: N/A ms");
                 ContextMenu contextMenu = new ContextMenu();
                 contextMenu.MenuItems.Add(quit);
                 contextMenu.MenuItems.Add(name);
+                contextMenu.MenuItems.Add(roundTripTime);
                 pingIcon.ContextMenu = contextMenu;
 
                 // Make Quit button close application
@@ -89,14 +93,17 @@ namespace PingGoogleDNS
                     {
                         try
                         {
-                            reply = pingSender.Send(iPAddress);
+                            // Send ping with timeout of 2000 ms (2s)
+                            reply = pingSender.Send(iPAddress, 2000 /* ms */);
 
                             if (reply.Status == IPStatus.Success)
                             {
                                 // Change the tray icon to connected
                                 pingIcon.Icon = connectedIcon;
                                 // Make tray icon alt text say success
-                                pingIcon.Text = "Ping to 8.8.8.8 success!";
+                                pingIcon.Text = "8.8.8.8 ping success! (" + reply.RoundtripTime + " ms)";
+                                // Make conext menu item say success
+                                roundTripTime.Text = "Latest ping: " + reply.RoundtripTime + " ms";
                             }
                         }
                         catch (PingException pe)
@@ -104,11 +111,13 @@ namespace PingGoogleDNS
                             // Change the Tray icon to disconnected
                             pingIcon.Icon = disconnectedIcon;
                             // Make tray icon alt text say failure
-                            pingIcon.Text = "Ping to 8.8.8.8 failure.";
+                            pingIcon.Text = "8.8.8.8 ping failure.";
+                            // Make context menu item say failure
+                            pingIcon.Text = "Latest ping: N/A ms";
                         }
 
-                        // Sleep for 1000ms (1 second)
-                        Thread.Sleep(1000);
+                        // Sleep for 500ms (0.5 seconds)
+                        Thread.Sleep(500);
                     }
                 }
                 catch (ThreadAbortException)
