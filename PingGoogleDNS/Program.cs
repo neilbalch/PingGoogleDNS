@@ -104,6 +104,9 @@ namespace PingGoogleDNS
                                 pingIcon.Text = "8.8.8.8 ping success! (" + reply.RoundtripTime + " ms)";
                                 // Make conext menu item say success
                                 roundTripTime.Text = "Latest ping: " + reply.RoundtripTime + " ms";
+
+                                // Sleep for 500ms (0.5 seconds)
+                                Thread.Sleep(500);
                             }
                         }
                         catch (PingException pe)
@@ -115,9 +118,6 @@ namespace PingGoogleDNS
                             // Make context menu item say failure
                             pingIcon.Text = "Latest ping: N/A ms";
                         }
-
-                        // Sleep for 500ms (0.5 seconds)
-                        Thread.Sleep(500);
                     }
                 }
                 catch (ThreadAbortException)
