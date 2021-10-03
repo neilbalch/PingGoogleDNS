@@ -86,10 +86,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="connected.ico">
+    <Content Include="connected.ico" />
+    <Content Include="disconnected.ico" />
+    <Content Include="good_connection.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="disconnected.ico">
+    <Content Include="no_connection.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="weak_connection.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
