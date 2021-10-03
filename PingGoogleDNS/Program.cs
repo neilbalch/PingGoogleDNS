@@ -112,6 +112,14 @@ namespace PingGoogleDNS
 
                                 // Sleep for 1000ms (1 second)
                                 Thread.Sleep(1000);
+                            } else
+                            {
+                                // Change the Tray icon to disconnected
+                                pingIcon.Icon = noIcon /*disconnectedIcon*/;
+                                // Make tray icon alt text say timeout
+                                pingIcon.Text = "8.8.8.8 ping timeout.";
+                                // Make context menu item say timeout
+                                roundTripTime.Text = "Latest ping: N/A ms (> 2000 ms)";
                             }
                         }
                         catch (PingException pe)
@@ -121,7 +129,7 @@ namespace PingGoogleDNS
                             // Make tray icon alt text say failure
                             pingIcon.Text = "8.8.8.8 ping failure.";
                             // Make context menu item say failure
-                            roundTripTime.Text = "Latest ping: N/A ms";
+                            roundTripTime.Text = "Latest ping: N/A ms (exception)";
                         }
                     }
                 }
